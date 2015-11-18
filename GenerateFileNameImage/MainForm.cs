@@ -36,14 +36,14 @@ namespace GenerateFileNameImage
             string path = Path.GetDirectoryName(filepath);
             string filename = Path.GetFileName(filepath);
 
-            Font font = new Font("맑은 고딕", 15);
+            Font font = new Font("맑은 고딕", (float) nuFontSize.Value);
             Color textColor = Color.White;
             Color backColor = Color.Black;
 
-            SizeF textSize = new SizeF(320, 200);
+            Size textSize = new Size((int) nuWidth.Value, (int) nuHeight.Value);
 
             //create a new image of the right size
-            Image img = new Bitmap((int)textSize.Width, (int)textSize.Height);
+            Image img = new Bitmap(textSize.Width, textSize.Height);
 
             Graphics drawing = Graphics.FromImage(img);
 
