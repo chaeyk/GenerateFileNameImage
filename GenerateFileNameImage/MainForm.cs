@@ -27,13 +27,15 @@ namespace GenerateFileNameImage
 
             foreach (string filepath in Directory.EnumerateFiles(tbPath.Text))
             {
-                string filename = filepath.Substring(tbPath.Text.Length + 1);
-                GenerateImage(tbPath.Text, filename);
+                GenerateImage(filepath);
             }
         }
 
-        private void GenerateImage(string path, string filename)
+        private void GenerateImage(string filepath)
         {
+            string path = Path.GetDirectoryName(filepath);
+            string filename = Path.GetFileName(filepath);
+
             Font font = new Font("맑은 고딕", 15);
             Color textColor = Color.White;
             Color backColor = Color.Black;
@@ -63,6 +65,23 @@ namespace GenerateFileNameImage
             drawing.Dispose();
 
             img.Save(path + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".png");
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.All;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            foreach (string filepath in s)
+            {
+                GenerateImage(filepath);
+            }
         }
     }
 }
